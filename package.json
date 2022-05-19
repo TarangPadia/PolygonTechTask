@@ -17,6 +17,7 @@
     "hardhat": "^2.9.4"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.6.0"
+    "@openzeppelin/contracts": "^4.6.0",
+    "ethereumjs-util": "^7.1.4"
   }
 }

@@ -16,7 +16,7 @@ contract MyNFTCollection is ERC721{
     //EIP712 components
     bytes32 public DOMAIN_SEPARATOR;
     // bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address spender,uint256 tokenId,uint256 nonce,uint256 deadline)");
-    bytes32 public constant PERMIT_TYPEHASH = 0xea2aa0a1be11a07ed86d755c93467f4f82362b452371d1ba94d1715123511acb;
+    bytes32 public constant PERMIT_TYPEHASH = 0x49ecf333e5b8c95c40fdafc95c1ad136e8914a8fb55e9dc8bb01eaa83a2df9ad;
 
 
     //MAPPINGS
@@ -88,18 +88,20 @@ contract MyNFTCollection is ERC721{
     {
         bytes32 digest =
             keccak256(abi.encodePacked(
-                "\x19\x01",
+                '\x19\x01',
                 DOMAIN_SEPARATOR,
                 keccak256(abi.encode(PERMIT_TYPEHASH,
                                      spender,
+                                     tokenId,
                                      nonce,
-                                     tokenId))
+                                     deadline
+                                     ))
         ));
 
         address signer = ecrecover(digest, v, r, s);
         require(signer != address(0), "Invalid signature");
         require(deadline == 0 || block.timestamp <= deadline, "Deadline expired");
-        require(nonce == nonces[tokenId]+1, "Invalid nonce");
+        require(nonce == nonces[tokenId], "Invalid nonce");
         permissions[tokenId].relayer = spender;
         permissions[tokenId].deadline = deadline;
         emit Permission(signer, spender, tokenId, deadline);

@@ -142,7 +142,7 @@ contract ERC721{
             msg.sender == owner ||
             msg.sender == getApproved(tokenId)||
             isApprovedForAll(owner, msg.sender)||
-            permissions[tokenId].relayer == msg.sender && permissions[tokenId].deadline < block.timestamp, 
+            permissions[tokenId].relayer == msg.sender && permissions[tokenId].deadline > block.timestamp, 
             "msg.sender is not owner or approved address"
         );
         require(from == owner, "From address should be owner");
@@ -150,7 +150,7 @@ contract ERC721{
         require(ownerOf(tokenId) != address(0), "Token ID does not exist");
 
         //Clear approval
-        approve(address(0),tokenId);
+        _tokenApprovals[tokenId] = address(0);
 
         //Update balances
         _balances[from] -= 1;
@@ -203,7 +203,7 @@ contract ERC721{
     */
     function _mint(address to, uint256 quantity) public{
         uint256 startTokenId = _currentIndex;
-        require(quantity >= 0 && quantity <= _maxBatchSize, "Quantity is invalid. Either too large or too small");
+        require(quantity > 0 && quantity <= _maxBatchSize, "Quantity is invalid. Either too large or too small");
         _balances[to] += quantity; //Update balance of to address
         _owners[startTokenId] = to; //Set owner for token
         uint256 updatedIndex = startTokenId;
