@@ -11,7 +11,7 @@ PS: The ERC721A contract is only used as a reference, with a few tweaks made ino
 
 <b>Explanation</b>
 <br/>
-Azuki's contract enables minting of multiple NFTs (ERC721 compliant), essentially for the gas fees close to minting a sing NFT. 
+Azuki's contract enables minting of multiple NFTs (ERC721 compliant), essentially for the gas fees close to minting a single NFT. 
 <br/>
 There are mainly 2 optimizations:
 <br/>
